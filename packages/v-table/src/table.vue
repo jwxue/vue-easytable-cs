@@ -201,8 +201,9 @@
                                     @mousemove.stop="handleTitleMouseMove($event,col.fields)"
                                     @mousedown.stop="handleTitleMouseDown($event)"
                                     @mouseout.stop="handleTitleMouseOut()"
-                                    @click.stop="titleCellClick(col.fields,col.title);"
-                                    @dblclick.stop="titleCellDblClick(col.fields,col.title)">
+                                    @click.stop="enableSort(col.orderBy) ? sortControl(col.field) : titleCellClick(col.fields,col.title);"
+                                    @dblclick.stop="titleCellDblClick(col.fields,col.title)"
+                                    :style="{'cursor' : enableSort(col.orderBy) ? 'pointer' : 'auto'}">
                                     <div :class="['v-table-title-cell',showVerticalBorder?'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
                                          :style="{'width':titleColumnWidth(col.fields)+'px','height':titleColumnHeight(col.rowspan)+'px','text-align':col.titleAlign}">
                                         <span class="table-title">
@@ -244,8 +245,9 @@
                                     @mousemove.stop="handleTitleMouseMove($event,col.field)"
                                     @mousedown.stop="handleTitleMouseDown($event)"
                                     @mouseout.stop="handleTitleMouseOut()"
-                                    @click.stop="titleCellClick(col.field,col.title);"
-                                    @dblclick.stop="titleCellDblClick(col.field,col.title)">
+                                    @click.stop="enableSort(col.orderBy) ? sortControl(col.field) : titleCellClick(col.field,col.title);"
+                                    @dblclick.stop="titleCellDblClick(col.field,col.title)"
+                                    :style="{'cursor' : enableSort(col.orderBy) ? 'pointer' : 'auto'}">
                                     <div :class="['v-table-title-cell',showVerticalBorder?'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
                                          :style="{'width':col.width+'px','height':titleRowHeight+'px','text-align':col.titleAlign}">
                                         <span class="table-title">
@@ -292,8 +294,10 @@
                         <tbody>
                         <tr :key="rowIndex" v-for="(item,rowIndex) in internalTableData" class="v-table-row"
                             :style="[trBgColor(rowIndex+1)]"
+                            :tabindex="rowIndex"
                             @mouseenter.stop="handleMouseEnter(rowIndex)"
                             @mouseleave.stop="handleMouseOut(rowIndex)"
+                            @keydown="keydownHandle(rowIndex, internalTableData[rowIndex - 1], internalTableData[rowIndex + 1], $event)"
                         >
                             <td v-if="cellMergeInit(rowIndex,col.field,item,false)"
                                 v-for="(col,colIndex) in noFrozenCols"
@@ -612,6 +616,10 @@
             // filter event
             filterMethod: Function
         },
+	    activated() {
+			// 每次激活时都回到保存的位置
+		    this.$el.querySelector('.v-table-rightview .v-table-body').scrollTop = this.currentPosition;
+	    },
         computed: {
 
             // 是否是复杂表头
