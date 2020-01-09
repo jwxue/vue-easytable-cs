@@ -26,6 +26,8 @@ exports.default = {
 
             methods: {
                         handleTitleMouseMove: function handleTitleMouseMove(event, column) {
+                            event.stopPropagation();
+                             event.preventDefault();
 
                                     if (!this.columnWidthDrag) {
                                                 return false;
