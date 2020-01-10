@@ -93,7 +93,8 @@ exports.default = {
                                     }
                         },
                         handleTitleMouseDown: function handleTitleMouseDown(event, column) {
-
+event.stopPropagation();
+event.preventDefault();
                                     if (!this.draggingColumn || !this.showVerticalBorder) {
                                                 return false;
                                     }
@@ -135,7 +136,8 @@ exports.default = {
                                     dragLine.style.left = clientX - tableLeft + 'px';
                         },
                         handleDragMouseUp: function handleDragMouseUp(e) {
-
+e.stopPropagation();
+e.preventDefault();
                                     if (!this.isDragging) {
                                                 return false;
                                     }

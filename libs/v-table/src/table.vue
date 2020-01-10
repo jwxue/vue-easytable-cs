@@ -201,7 +201,7 @@
                                     @mousemove.stop="handleTitleMouseMove($event,col.fields)"
                                     @mousedown.stop="handleTitleMouseDown($event)"
                                     @mouseout.stop="handleTitleMouseOut()"
-                                    @click.stop="enableSort(col.orderBy) ? sortControl(col.field) : titleCellClick(col.fields,col.title);"
+
                                     @dblclick.stop="titleCellDblClick(col.fields,col.title)"
                                     :style="{'cursor' : enableSort(col.orderBy) ? 'pointer' : 'auto'}">
                                     <div :class="['v-table-title-cell',showVerticalBorder?'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
@@ -216,7 +216,7 @@
                                                          label="check-all"
                                                  ></v-checkbox>
                                             </span>
-                                            <span v-else v-html="col.title"></span>
+                                            <span v-else v-html="col.title" @click.stop="enableSort(col.orderBy) ? sortControl(col.field) : titleCellClick(col.fields,col.title);"></span>
                                             <span @click.stop="sortControl(col.fields[0])"
                                                   class="v-table-sort-icon" v-if="enableSort(col.orderBy)">
                                                         <i :class='["v-icon-up-dir",getCurrentSort(col.fields[0]) ==="asc" ? "checked":""]'></i>
@@ -245,7 +245,7 @@
                                     @mousemove.stop="handleTitleMouseMove($event,col.field)"
                                     @mousedown.stop="handleTitleMouseDown($event)"
                                     @mouseout.stop="handleTitleMouseOut()"
-                                    @click.stop="enableSort(col.orderBy) ? sortControl(col.field) : titleCellClick(col.field,col.title);"
+
                                     @dblclick.stop="titleCellDblClick(col.field,col.title)"
                                     :style="{'cursor' : enableSort(col.orderBy) ? 'pointer' : 'auto'}">
                                     <div :class="['v-table-title-cell',showVerticalBorder?'vertical-border':'',showHorizontalBorder?'horizontal-border':'']"
@@ -260,7 +260,7 @@
                                                          label="check-all"
                                                  ></v-checkbox>
                                             </span>
-                                            <span v-else v-html="col.title"></span>
+                                            <span v-else v-html="col.title" @click.stop="enableSort(col.orderBy) ? sortControl(col.field) : titleCellClick(col.field,col.title);"></span>
                                             <span @click.stop="sortControl(col.field)"
                                                   class="v-table-sort-icon"
                                                   v-if="enableSort(col.orderBy)">
